@@ -4,8 +4,8 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="section-wrap header-inner">
-        <Link className="wordmark" href="/" aria-label="Hyunjun home">
-          HJ<span>.</span>
+        <Link className="wordmark" href="/" aria-label="Julian Kim home">
+          JK<span>.</span>
         </Link>
         <nav aria-label="Primary navigation">
           <Link href="/">Home</Link>

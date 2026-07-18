@@ -10,35 +10,36 @@ export default function Home() {
       <main>
         <section className="hero section-wrap" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="status-dot" /> Software engineer · Seoul</p>
-            <h1 id="hero-title">I build useful systems<br />and write down what I learn.</h1>
+            <p className="eyebrow"><span className="status-dot" /> Undergraduate researcher · Suwon</p>
+            <h1 id="hero-title">I explore how AI<br />understands and acts.</h1>
             <p className="hero-lede">
-              Hello, I&apos;m Hyunjun. This is my digital garden for engineering
-              notes, experiments, and the decisions behind the software I build.
+              Hello, I&apos;m Julian. I&apos;m an undergraduate at Seoul National
+              University and an intern at DSAIL, interested in Physical AI and
+              vision-language-action models.
             </p>
             <div className="hero-actions">
-              <Link className="button button-primary" href="/writing">Read my writing <span>↗</span></Link>
-              <Link className="button button-quiet" href="/about">More about me</Link>
+              <Link className="button button-primary" href="/about">More about me <span>↗</span></Link>
+              <Link className="button button-quiet" href="/writing">Read my writing</Link>
             </div>
           </div>
           <aside className="profile-card" aria-label="Profile summary">
             <div className="profile-photo" aria-label="Profile photo placeholder">
-              <span>HJ</span>
+              <span>JK</span>
               <small>YOUR PHOTO</small>
             </div>
             <div className="profile-details">
-              <div><span>FOCUS</span><strong>Backend · Data · Systems</strong></div>
-              <div><span>CURRENTLY</span><strong>Learning in public</strong></div>
-              <div><span>ELSEWHERE</span><strong>GitHub · LinkedIn · Email</strong></div>
+              <div><span>FOCUS</span><strong>Physical AI · VLA</strong></div>
+              <div><span>CURRENTLY</span><strong>SNU Undergraduate · DSAIL Intern</strong></div>
+              <div><span>BASED IN</span><strong>Suwon, Korea</strong></div>
             </div>
           </aside>
         </section>
 
         <section className="signal-strip" aria-label="Professional highlights">
           <div className="section-wrap signal-grid">
-            <p><span>01</span> Practical engineering</p>
-            <p><span>02</span> Clear documentation</p>
-            <p><span>03</span> Continuous experiments</p>
+            <p><span>01</span> Undergraduate at SNU</p>
+            <p><span>02</span> Research intern at DSAIL</p>
+            <p><span>03</span> Physical AI · VLA</p>
           </div>
         </section>
 
@@ -73,17 +74,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section-wrap now-card" aria-labelledby="now-title">
-          <div>
-            <p className="eyebrow">NOW · JULY 2026</p>
-            <h2 id="now-title">Currently exploring reliable systems and better ways to explain them.</h2>
-          </div>
-          <p>
-            I&apos;m collecting notes on database performance, infrastructure,
-            and the small engineering choices that make software easier to own.
-          </p>
-          <Link className="round-link" href="/about" aria-label="Read the About page">↗</Link>
-        </section>
       </main>
       <SiteFooter />
     </div>

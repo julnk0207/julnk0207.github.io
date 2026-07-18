@@ -22,7 +22,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="article-kicker"><span>{post.category}</span><span>{post.subcategory}</span><span>{post.readingTime} READ</span></div>
           <h1>{post.title}</h1>
           <p>{post.description}</p>
-          <div className="article-byline"><div className="mini-avatar">HJ</div><div><strong>Hyunjun</strong><span>Published {post.date}</span></div></div>
+          <div className="article-byline"><div className="mini-avatar">JK</div><div><strong>Julian Kim</strong><span>Published {post.date}</span></div></div>
         </header>
         <div className="article-layout section-wrap">
           <aside className="toc"><span>ON THIS PAGE</span><a href="#context">01 · Context</a><a href="#model">02 · Content model</a><a href="#next">03 · What comes next</a></aside>
