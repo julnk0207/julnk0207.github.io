@@ -4,7 +4,22 @@ A personal portfolio and Markdown-based technical blog, intended for publication
 
 ## Project status
 
-The first interactive design draft is implemented with placeholder personal content.
+The first interactive design draft is implemented with placeholder personal content and automatically deployed through GitHub Pages.
+
+## Development
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open `http://localhost:3000`. Saving a source file refreshes the preview automatically.
+
+## Deployment
+
+Every push to `main` builds a static version of the site and deploys it to:
+
+`https://julnk0207.github.io/`
 
 ## Goals
 
@@ -27,4 +42,3 @@ The first interactive design draft is implemented with placeholder personal cont
 2. Review and transfer the existing blog content.
 3. Finalize categories, subcategories, and tags.
 4. Configure the static Markdown publishing workflow.
-5. Connect the GitHub repository and deploy with GitHub Pages.
