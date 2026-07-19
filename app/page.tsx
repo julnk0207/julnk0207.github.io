@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ContactLinks } from "./components/ContactLinks";
+import { ProfilePhoto } from "./components/ProfilePhoto";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { featuredPosts } from "./content/posts";
@@ -24,10 +25,7 @@ export default function Home() {
             </div>
           </div>
           <aside className="profile-card" aria-label="Profile summary">
-            <div className="profile-photo" aria-label="Profile photo placeholder">
-              <span>JK</span>
-              <small>YOUR PHOTO</small>
-            </div>
+            <ProfilePhoto />
             <div className="profile-details">
               <div><span>FOCUS</span><strong>Physical AI · VLA</strong></div>
               <div><span>CURRENTLY</span><strong>SNU Undergraduate · DSAIL Intern</strong></div>

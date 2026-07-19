@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Google_Sans, Google_Sans_Code } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const googleSansCode = Google_Sans_Code({
+  variable: "--font-google-sans-code",
   subsets: ["latin"],
 });
 
@@ -36,10 +36,14 @@ export const viewport: Viewport = {
 const themeScript = `
   (() => {
     try {
-      const savedTheme = localStorage.getItem("theme");
-      const theme = savedTheme === "light" || savedTheme === "dark"
-        ? savedTheme
-        : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const savedMode = localStorage.getItem("theme-mode");
+      const mode = savedMode === "light" || savedMode === "dark" || savedMode === "system"
+        ? savedMode
+        : "system";
+      const theme = mode === "system"
+        ? matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+        : mode;
+      document.documentElement.dataset.themeMode = mode;
       document.documentElement.dataset.theme = theme;
       document.documentElement.style.colorScheme = theme;
       document.querySelector('meta[name="theme-color"]')?.setAttribute(
@@ -62,7 +66,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${googleSans.variable} ${googleSansCode.variable} antialiased`}
       >
         {children}
       </body>

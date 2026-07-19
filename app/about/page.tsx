@@ -1,4 +1,6 @@
+import { AboutFacts } from "../components/AboutFacts";
 import { ContactLinks } from "../components/ContactLinks";
+import { ProfilePhoto } from "../components/ProfilePhoto";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 
@@ -14,8 +16,8 @@ export default function AboutPage() {
         </header>
         <div className="about-layout">
           <aside className="about-sidebar">
-            <div className="profile-photo compact"><span>JK</span><small>YOUR PHOTO</small></div>
-            <p>Based in Suwon, Korea · Studying at Seoul National University · Interning at DSAIL</p>
+            <ProfilePhoto compact />
+            <AboutFacts />
             <div className="about-contact">
               <p className="eyebrow">CONTACT</p>
               <ContactLinks compact />
