@@ -1,9 +1,10 @@
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 import { WritingArchive } from "../components/WritingArchive";
-import { featuredPosts } from "../content/posts";
+import { getAllPosts } from "../content/posts";
 
 export default function WritingPage() {
+  const posts = getAllPosts();
   return (
     <div className="site-shell">
       <SiteHeader />
@@ -13,7 +14,7 @@ export default function WritingPage() {
           <h1>Ideas become more useful when they&apos;re written clearly.</h1>
           <p>Engineering notes, experiments, and explanations. Organized for discovery—not an endless chronological feed.</p>
         </header>
-        <WritingArchive posts={featuredPosts} />
+        <WritingArchive posts={posts} />
       </main>
       <SiteFooter />
     </div>

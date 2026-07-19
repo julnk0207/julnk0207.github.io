@@ -4,9 +4,13 @@ import { ProfileFacts } from "./components/ProfileFacts";
 import { ProfilePhoto } from "./components/ProfilePhoto";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
-import { featuredPosts } from "./content/posts";
+import { getAllPosts } from "./content/posts";
 
 export default function Home() {
+  const featuredPosts = getAllPosts().slice(0, 3);
+  const latestYear = featuredPosts[0]
+    ? new Date(featuredPosts[0].dateValue).getUTCFullYear()
+    : new Date().getUTCFullYear();
   return (
     <div className="site-shell">
       <SiteHeader />
@@ -34,7 +38,7 @@ export default function Home() {
         <section className="section-wrap writing-section" aria-labelledby="latest-writing">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">SELECTED NOTES · 2026</p>
+              <p className="eyebrow">SELECTED NOTES · {latestYear}</p>
               <h2 id="latest-writing">Latest writing</h2>
             </div>
             <Link className="text-link" href="/writing">View all posts <span>→</span></Link>

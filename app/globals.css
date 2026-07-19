@@ -245,14 +245,24 @@ button { font: inherit; }
 .article-byline > div:last-child { display: grid; gap: 3px; font-size: 12px; }
 .article-byline span { color: var(--muted); font-size: 10px; }
 .article-layout { display: grid; grid-template-columns: 230px minmax(0, 720px); gap: 90px; justify-content: center; padding-block: 80px 120px; }
+.article-layout-no-toc { grid-template-columns: minmax(0, 720px); }
 .toc { align-self: start; position: sticky; top: 30px; display: grid; gap: 14px; font-size: 11px; }
 .toc > span { font: 600 9px/1 var(--font-google-sans-code); color: var(--muted); letter-spacing: .12em; margin-bottom: 10px; }
 .toc a { color: var(--muted); }
 .toc a:hover { color: var(--accent); }
+.toc .toc-nested { padding-left: 14px; }
 .article-body { font-size: 18px; line-height: 1.82; }
 .article-body .article-lead { font-size: 24px; line-height: 1.55; letter-spacing: -.025em; color: var(--ink); }
 .article-body p { color: var(--article-text); }
 .article-body h2 { margin: 70px 0 18px; font-size: 35px; letter-spacing: -.04em; line-height: 1.15; }
+.article-body h3 { margin: 44px 0 14px; font-size: 25px; letter-spacing: -.025em; line-height: 1.2; }
+.article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.article-body ul, .article-body ol { margin: 24px 0; padding-left: 28px; color: var(--article-text); }
+.article-body li + li { margin-top: 8px; }
+.article-body :not(pre) > code { padding: 2px 6px; background: var(--highlight); font: .85em/1.5 var(--font-google-sans-code); }
+.article-body img { max-width: 100%; height: auto; margin: 36px 0; }
+.article-body table { width: 100%; margin: 36px 0; border-collapse: collapse; font-size: 15px; }
+.article-body th, .article-body td { padding: 12px; border: 1px solid var(--line); text-align: left; }
 .article-body blockquote { margin: 44px 0; padding: 30px; background: var(--highlight); border-left: 3px solid var(--accent); font-size: 23px; line-height: 1.45; letter-spacing: -.025em; }
 .article-body pre { overflow-x: auto; margin: 36px 0; padding: 26px; background: var(--code-bg); color: var(--code-text); font: 13px/1.8 var(--font-google-sans-code); }
 .article-body .tag-list { margin-top: 60px; border-top: 1px solid var(--line); padding-top: 24px; }

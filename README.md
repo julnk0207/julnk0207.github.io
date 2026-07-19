@@ -15,6 +15,14 @@ pnpm dev
 
 Open `http://localhost:3000`. Saving a source file refreshes the preview automatically.
 
+## Add a post
+
+Copy `content/posts/_template.md` to a new Markdown file in the same folder, then edit it. The filename becomes the post URL and the site handles the archive, home-page card, date formatting, reading time, and table of contents automatically.
+
+For example, `content/posts/my-new-post.md` is published at `/writing/my-new-post/`.
+
+See [`content/README.md`](content/README.md) for the short frontmatter reference.
+
 ## Deployment
 
 Every push to `main` builds a static version of the site and deploys it to:
@@ -41,4 +49,3 @@ Every push to `main` builds a static version of the site and deploys it to:
 1. Replace placeholder copy and imagery with personal information.
 2. Review and transfer the existing blog content.
 3. Finalize categories, subcategories, and tags.
-4. Configure the static Markdown publishing workflow.
