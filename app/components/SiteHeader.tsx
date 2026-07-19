@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
   return (
@@ -12,7 +13,10 @@ export function SiteHeader() {
           <Link href="/writing">Writing</Link>
           <Link href="/about">About</Link>
         </nav>
-        <a className="header-contact" href="mailto:hello@example.com">Let&apos;s talk <span>↗</span></a>
+        <div className="header-actions">
+          <ThemeToggle />
+          <a className="header-contact" href="mailto:hello@example.com">Let&apos;s talk <span>↗</span></a>
+        </div>
       </div>
     </header>
   );

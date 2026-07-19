@@ -1,6 +1,59 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22 19.2727C22 20.779 20.779 22 19.2727 22H14.7273C13.221 22 12 20.779 12 19.2727V12H19.2727C20.779 12 22 13.221 22 14.7273V19.2727Z" fill="#68C4FF"/>
-<path d="M20 2C21.1046 2 22 2.89543 22 4V7C22 8.10457 21.1046 9 20 9H17C15.8954 9 15 8.10457 15 7V4C15 2.89543 15.8954 2 17 2H20Z" fill="#0C79D8"/>
-<path d="M7 15C8.10457 15 9 15.8954 9 17V20C9 21.1046 8.10457 22 7 22H4C2.89543 22 2 21.1046 2 20V17C2 15.8954 2.89543 15 4 15H7Z" fill="#0C79D8"/>
-<path d="M12 12H4.72727C3.22104 12 2 10.779 2 9.27273V4.72727C2 3.22104 3.22104 2 4.72727 2H9.27273C10.779 2 12 3.22104 12 4.72727V12Z" fill="#2E9EFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0F1F"/>
+      <stop offset="100%" stop-color="#111B36"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#65D7FF"/>
+      <stop offset="55%" stop-color="#7C7CFF"/>
+      <stop offset="100%" stop-color="#B56CFF"/>
+    </linearGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="56" y="56" width="912" height="912" rx="240" fill="url(#bg)"/>
+
+  <!-- subtle AI network -->
+  <g opacity="0.23" stroke="#8CCBFF" stroke-width="10">
+    <line x1="250" y1="280" x2="400" y2="180"/>
+    <line x1="400" y1="180" x2="600" y2="220"/>
+    <line x1="600" y1="220" x2="760" y2="330"/>
+    <line x1="250" y1="280" x2="260" y2="560"/>
+    <line x1="760" y1="330" x2="720" y2="620"/>
+    <line x1="260" y1="560" x2="450" y2="770"/>
+    <line x1="450" y1="770" x2="720" y2="620"/>
+    <line x1="400" y1="180" x2="450" y2="770"/>
+    <line x1="600" y1="220" x2="260" y2="560"/>
+  </g>
+
+  <g fill="#B9E8FF" opacity="0.85">
+    <circle cx="250" cy="280" r="16"/>
+    <circle cx="400" cy="180" r="16"/>
+    <circle cx="600" cy="220" r="16"/>
+    <circle cx="760" cy="330" r="16"/>
+    <circle cx="260" cy="560" r="16"/>
+    <circle cx="450" cy="770" r="16"/>
+    <circle cx="720" cy="620" r="16"/>
+  </g>
+
+  <!-- JK monogram -->
+  <g fill="none" stroke="url(#glow)" stroke-width="72" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)">
+    <!-- J -->
+    <path d="M430 285 V620 C430 742 275 750 255 640"/>
+    <!-- K -->
+    <path d="M560 285 V735"/>
+    <path d="M560 525 L760 305"/>
+    <path d="M560 525 L765 735"/>
+  </g>
+
+  <!-- AI spark/core -->
+  <circle cx="560" cy="525" r="34" fill="#F8FBFF"/>
+  <circle cx="560" cy="525" r="62" fill="none" stroke="#9ECFFF" stroke-width="12" opacity="0.7"/>
 </svg>

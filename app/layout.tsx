@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -19,10 +19,36 @@ export const metadata: Metadata = {
   },
   description: "Engineering notes, experiments, and the thinking behind the software I build.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-128.png", type: "image/png", sizes: "128x128" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/app-icon.png", sizes: "1024x1024", type: "image/png" }],
   },
 };
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+};
+
+const themeScript = `
+  (() => {
+    try {
+      const savedTheme = localStorage.getItem("theme");
+      const theme = savedTheme === "light" || savedTheme === "dark"
+        ? savedTheme
+        : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute(
+        "content",
+        theme === "dark" ? "#080d1c" : "#f7f8ff",
+      );
+    } catch {}
+  })();
+`;
 
 export default function RootLayout({
   children,
@@ -30,7 +56,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#f7f8ff" />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
