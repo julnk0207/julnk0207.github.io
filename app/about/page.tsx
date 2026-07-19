@@ -24,11 +24,28 @@ export default function AboutPage() {
             </div>
           </aside>
           <div className="about-content">
-            <section><span className="section-number">01</span><div><h2>Introduction</h2><p>I&apos;m interested in building AI systems that move beyond digital interfaces and interact meaningfully with the physical world. Right now, I&apos;m focusing on vision-language-action models and learning how perception, reasoning, and action come together.</p></div></section>
-            <section><span className="section-number">02</span><div><h2>Academic experience</h2><p>I&apos;m currently pursuing my undergraduate studies at Seoul National University.</p><div className="detail-card"><strong>Seoul National University</strong><span>Undergraduate student · Seoul, Korea</span><p>Developing my foundations in artificial intelligence while exploring research questions in Physical AI and embodied intelligence.</p></div></div></section>
-            <section><span className="section-number">03</span><div><h2>Research experience</h2><p>As an intern at DSAIL, I&apos;m gaining hands-on research experience and deepening my understanding of modern AI systems.</p><div className="detail-card"><strong>DSAIL</strong><span>Research intern · Current</span><p>Exploring research at the intersection of visual perception, language, and action.</p></div></div></section>
-            <section><span className="section-number">04</span><div><h2>Certifications</h2><p>Relevant professional certificates, issuing organizations, and verification links.</p><div className="chip-row"><span>Certificate placeholder</span><span>Issuer · 2026</span></div></div></section>
-            <section><span className="section-number">05</span><div><h2>Publications & talks</h2><p className="muted-note">This section will stay hidden on the finished site until you have something to add.</p></div></section>
+
+            {/* Academic Experience */}
+            <section><span className="section-number">01</span><div><h2>Academic experience</h2><div className="detail-card"><strong>Seoul National University</strong><span>Undergraduate student · Seoul, Korea · 2021 - Current</span><p>Biological Science & Interdisciplinary Major in AI</p></div></div></section>
+
+
+            {/* Research Experience */}
+            <section><span className="section-number">02</span><div><h2>Research experience</h2><div className="detail-card"><strong>DSAIL</strong><span>Research intern · Seoul, Korea · July, 2026 - Current</span><p>Exploring research at the intersection of visual perception, language, and action.</p></div></div></section>
+
+
+            {/* Certification */}
+
+            <section><span className="section-number">03</span><div><h2>Certifications</h2>
+
+            <div className="detail-card"><strong>Dean&apos;s List</strong><span> Seoul National University · 2025 Spring, Fall</span></div>
+
+            <div className="detail-card"><strong>Woonhae Foundation Scholarship</strong><span> Woonhae Foundation · 2026</span></div>
+
+            <div className="detail-card"><strong>AWS Solve-A-Thon 2nd Place</strong><span> Amazon Web Service · Jan, 2025</span></div>
+
+            </div></section>
+
+            {/* <section><span className="section-number">05</span><div><h2>Publications & talks</h2><p className="muted-note">This section will stay hidden on the finished site until you have something to add.</p></div></section> */}
           </div>
         </div>
       </main>
