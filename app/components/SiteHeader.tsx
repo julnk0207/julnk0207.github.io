@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HeaderContactMenu } from "./HeaderContactMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
@@ -16,7 +17,7 @@ export function SiteHeader() {
         </nav>
         <div className="header-actions">
           <ThemeToggle />
-          <a className="header-contact" href="mailto:julnk0207@gmail.com">Let&apos;s talk <span>↗</span></a>
+          <HeaderContactMenu />
         </div>
       </div>
     </header>

@@ -1,6 +1,7 @@
 type FactIconName = "location" | "education" | "research";
+type ProfileFactsVariant = "home" | "about";
 
-const facts: Array<{
+const sharedFacts: Array<{
   label: string;
   value: string;
   icon: FactIconName;
@@ -26,12 +27,12 @@ function FactIcon({ name }: { name: FactIconName }) {
   );
 }
 
-export function AboutFacts() {
+export function ProfileFacts({ variant }: { variant: ProfileFactsVariant }) {
   return (
-    <dl className="about-facts" aria-label="Profile details">
-      {facts.map((fact) => (
-        <div className="about-fact" key={fact.label}>
-          <span className="about-fact-icon"><FactIcon name={fact.icon} /></span>
+    <dl className={`profile-facts profile-facts-${variant}`} aria-label="Profile details">
+      {sharedFacts.map((fact) => (
+        <div className="profile-fact" key={fact.label}>
+          <span className="profile-fact-icon"><FactIcon name={fact.icon} /></span>
           <div>
             <dt>{fact.label}</dt>
             <dd>{fact.value}</dd>

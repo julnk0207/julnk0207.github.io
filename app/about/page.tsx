@@ -1,5 +1,5 @@
-import { AboutFacts } from "../components/AboutFacts";
 import { ContactLinks } from "../components/ContactLinks";
+import { ProfileFacts } from "../components/ProfileFacts";
 import { ProfilePhoto } from "../components/ProfilePhoto";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
@@ -17,7 +17,7 @@ export default function AboutPage() {
         <div className="about-layout">
           <aside className="about-sidebar">
             <ProfilePhoto compact />
-            <AboutFacts />
+            <ProfileFacts variant="about" />
             <div className="about-contact">
               <p className="eyebrow">CONTACT</p>
               <ContactLinks compact />
