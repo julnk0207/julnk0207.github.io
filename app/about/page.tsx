@@ -1,3 +1,4 @@
+import { ContactLinks } from "../components/ContactLinks";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 
@@ -15,6 +16,10 @@ export default function AboutPage() {
           <aside className="about-sidebar">
             <div className="profile-photo compact"><span>JK</span><small>YOUR PHOTO</small></div>
             <p>Based in Suwon, Korea · Studying at Seoul National University · Interning at DSAIL</p>
+            <div className="about-contact">
+              <p className="eyebrow">CONTACT</p>
+              <ContactLinks compact />
+            </div>
           </aside>
           <div className="about-content">
             <section><span className="section-number">01</span><div><h2>Introduction</h2><p>I&apos;m interested in building AI systems that move beyond digital interfaces and interact meaningfully with the physical world. Right now, I&apos;m focusing on vision-language-action models and learning how perception, reasoning, and action come together.</p></div></section>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContactLinks } from "./components/ContactLinks";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { featuredPosts } from "./content/posts";
@@ -35,14 +36,6 @@ export default function Home() {
           </aside>
         </section>
 
-        <section className="signal-strip" aria-label="Professional highlights">
-          <div className="section-wrap signal-grid">
-            <p><span>01</span> Undergraduate at SNU</p>
-            <p><span>02</span> Research intern at DSAIL</p>
-            <p><span>03</span> Physical AI · VLA</p>
-          </div>
-        </section>
-
         <section className="section-wrap writing-section" aria-labelledby="latest-writing">
           <div className="section-heading">
             <div>
@@ -71,6 +64,16 @@ export default function Home() {
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="contact-band" aria-labelledby="home-contact-title">
+          <div className="section-wrap contact-band-inner">
+            <div className="contact-band-heading">
+              <p className="eyebrow">LET&apos;S CONNECT</p>
+              <h2 id="home-contact-title">Find me online.</h2>
+            </div>
+            <ContactLinks />
           </div>
         </section>
 
