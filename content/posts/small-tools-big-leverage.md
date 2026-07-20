@@ -1,5 +1,5 @@
 ---
-title: Small tools, big leverage
+title: "[Sample] Small tools, big leverage"
 description: Three tiny automation experiments that removed recurring friction from my development workflow.
 date: 2026-05-12
 category: Engineering

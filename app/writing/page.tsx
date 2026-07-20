@@ -10,9 +10,9 @@ export default function WritingPage() {
       <SiteHeader />
       <main className="section-wrap inner-page">
         <header className="page-intro writing-intro">
-          <p className="eyebrow">WRITING · NOTES FROM THE WORK</p>
+          <p className="eyebrow">WRITING</p>
           <h1>Ideas become more useful when they&apos;re written clearly.</h1>
-          <p>Engineering notes, experiments, and explanations. Organized for discovery—not an endless chronological feed.</p>
+          <p>Traces of study, some thoughts.</p>
         </header>
         <WritingArchive posts={posts} />
       </main>

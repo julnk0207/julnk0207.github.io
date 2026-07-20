@@ -20,7 +20,7 @@ export default function Home() {
             <p className="eyebrow"><span className="status-dot" /> Undergraduate researcher · Suwon</p>
             <h1 id="hero-title">I explore how AI<br />understands and acts.</h1>
             <p className="hero-lede">
-              Hello, I&apos;m Julian. I&apos;m an undergraduate at Seoul National
+              Hello, I&apos;m Julian Kim (HyunJun). I&apos;m an undergraduate at Seoul National
               University and an intern at DSAIL, interested in Physical AI and
               vision-language-action models.
             </p>
@@ -69,7 +69,7 @@ export default function Home() {
         <section className="contact-band" aria-labelledby="home-contact-title">
           <div className="section-wrap contact-band-inner">
             <div className="contact-band-heading">
-              <p className="eyebrow">LET&apos;S CONNECT</p>
+              <p className="eyebrow">Let&apos;s Connect</p>
               <h2 id="home-contact-title">Find me online.</h2>
             </div>
             <ContactLinks />

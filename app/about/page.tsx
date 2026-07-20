@@ -10,9 +10,9 @@ export default function AboutPage() {
       <SiteHeader />
       <main className="section-wrap inner-page">
         <header className="page-intro about-intro">
-          <p className="eyebrow">ABOUT · THE LONGER VERSION</p>
-          <h1>Exploring how intelligent systems can understand—and act in—the physical world.</h1>
-          <p>I&apos;m Julian Kim, an undergraduate at Seoul National University and an intern at DSAIL. I live in Suwon, Korea, and my current interest is Physical AI, especially vision-language-action models.</p>
+          <p className="eyebrow">ABOUT</p>
+          <h1>Exploring how AI can understand and act <br/> in the physical world.</h1>
+          <p>I&apos;m Julian Kim (HyunJun), an undergraduate at Seoul National University and an intern at DSAIL. I live in Suwon, Korea, and my current interest is Physical AI, especially vision-language-action models.</p>
         </header>
         <div className="about-layout">
           <aside className="about-sidebar">
@@ -35,7 +35,7 @@ export default function AboutPage() {
 
             {/* Certification */}
 
-            <section><span className="section-number">03</span><div><h2>Certifications</h2>
+            <section><span className="section-number">03</span><div><h2>Certifications & Awards</h2>
 
             <div className="detail-card"><strong>Dean&apos;s List</strong><span> Seoul National University · 2025 Spring, Fall</span></div>
 

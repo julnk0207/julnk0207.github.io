@@ -1,5 +1,5 @@
 ---
-title: "Notes on database indexes: start with the query"
+title: "[Sample] Notes on database indexes: start with the query"
 description: A practical mental model for choosing indexes without turning every table into a guessing game.
 date: 2026-06-28
 category: Backend

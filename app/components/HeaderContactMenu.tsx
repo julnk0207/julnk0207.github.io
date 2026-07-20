@@ -42,7 +42,7 @@ export function HeaderContactMenu() {
         onClick={() => setIsOpen((open) => !open)}
         ref={buttonRef}
       >
-        Let&apos;s talk <span aria-hidden="true">{isOpen ? "×" : "↗"}</span>
+        Let&apos;s Connect <span aria-hidden="true">{isOpen ? "×" : "↗"}</span>
       </button>
       {isOpen && (
         <div
@@ -54,7 +54,7 @@ export function HeaderContactMenu() {
             }
           }}
         >
-          <p className="eyebrow">LET&apos;S CONNECT</p>
+          <p className="eyebrow">Let&apos;s Connect</p>
           <ContactLinks compact />
         </div>
       )}
