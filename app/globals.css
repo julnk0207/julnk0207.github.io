@@ -203,6 +203,10 @@ button { font: inherit; }
 .profile-fact-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .profile-fact dt { margin: 0 0 4px; font-family: var(--font-google-sans-code); font-size: 10px; font-weight: 600; line-height: 1; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
 .profile-fact dd { margin: 0; font-size: 14px; font-weight: 650; line-height: 1.35; }
+.profile-fact dd a { display: inline-flex; align-items: baseline; gap: 6px; transition: color .2s ease; }
+.profile-fact dd a span { font-size: 11px; transition: transform .2s ease; }
+.profile-fact dd a:hover { color: var(--accent); }
+.profile-fact dd a:hover span { transform: translate(2px, -2px); }
 .profile-facts-home { margin: 0; border: 0; }
 .profile-facts-home .profile-fact { min-height: 61px; padding-inline: 18px; }
 .about-contact { margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--line); }

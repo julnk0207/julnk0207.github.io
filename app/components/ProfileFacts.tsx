@@ -4,11 +4,27 @@ type ProfileFactsVariant = "home" | "about";
 const sharedFacts: Array<{
   label: string;
   value: string;
+  href: string;
   icon: FactIconName;
 }> = [
-  { label: "Based in", value: "Suwon, Korea", icon: "location" },
-  { label: "Studying at", value: "Seoul National University", icon: "education" },
-  { label: "Researching at", value: "DSAIL", icon: "research" },
+  {
+    label: "Based in",
+    value: "Suwon, Korea",
+    href: "https://maps.app.goo.gl/pHKQiMkCU4TKgk936",
+    icon: "location",
+  },
+  {
+    label: "Studying at",
+    value: "Seoul National University",
+    href: "https://en.snu.ac.kr",
+    icon: "education",
+  },
+  {
+    label: "Researching at",
+    value: "DSAIL",
+    href: "https://data.snu.ac.kr/",
+    icon: "research",
+  },
 ];
 
 function FactIcon({ name }: { name: FactIconName }) {
@@ -35,7 +51,11 @@ export function ProfileFacts({ variant }: { variant: ProfileFactsVariant }) {
           <span className="profile-fact-icon"><FactIcon name={fact.icon} /></span>
           <div>
             <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
+            <dd>
+              <a href={fact.href} target="_blank" rel="noreferrer">
+                {fact.value}<span aria-hidden="true">↗</span>
+              </a>
+            </dd>
           </div>
         </div>
       ))}
