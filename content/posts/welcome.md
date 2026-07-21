@@ -6,7 +6,7 @@ category: Blog
 subcategory: Notice
 tags:
 linkedin:
-  status: draft
+  status: review
   summary: |-
     I redesigned my personal blog as a place to document what I learn, share notes about AI and software, and reflect on research and personal experiences.
 
@@ -15,7 +15,7 @@ linkedin:
     Explore the blog: https://julnk0207.github.io/
 
     #AI #SoftwareEngineering #Research
-  postId: ""
+  postId: "6a5f4b9f59e855c2ff124564"
 ---
 
 Welcome to my new, fully redesigned personal tech blog!
