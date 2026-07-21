@@ -42,7 +42,9 @@ Ordinary article edits do not change these statuses. Each platform has its own i
 
 ### Buffer draft test
 
-The **Create Buffer draft** GitHub Actions workflow accepts a post slug and a platform (`linkedin` or `x`). It creates a draft for the single matching channel connected to Buffer and never publishes directly. After Buffer returns a post ID, the workflow changes that platform's article status to `review`, records the ID in the matching block, and commits the record so rerunning the workflow cannot create a duplicate.
+The **Create Buffer draft** GitHub Actions workflow accepts a post slug and a platform (`both`, `linkedin`, or `x`). The `both` option creates separate drafts for both platform channels in one run while preserving their tailored summaries and IDs. A platform with an existing ID is skipped. The workflow never publishes directly. After Buffer returns an ID, it changes that platform's article status to `review`, records the ID in the matching block, and commits the record so rerunning the workflow cannot create a duplicate.
+
+Buffer's API models each social post as belonging to one channel, so a combined run still creates two independent drafts. If one platform succeeds and the other fails, the successful ID is committed; rerun `both` after correcting the failure and the completed platform will be skipped.
 
 The workflow requires a repository Actions secret named `BUFFER_API_KEY`. Never put the key in frontmatter, source files, workflow inputs, or logs.
 

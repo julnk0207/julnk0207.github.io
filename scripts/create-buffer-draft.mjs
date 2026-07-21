@@ -7,6 +7,7 @@ const slug = process.argv[2];
 const platform = process.argv[3];
 const dryRun = process.argv.includes("--dry-run");
 const shouldWrite = process.argv.includes("--write");
+const skipExisting = process.argv.includes("--skip-existing");
 
 const PLATFORM_CONFIG = {
   linkedin: {
@@ -51,6 +52,12 @@ if (social.summary.length > platformConfig.summaryLimit) {
   );
 }
 if (typeof social.postId === "string" && social.postId.trim()) {
+  if (skipExisting) {
+    console.log(
+      `Skipped ${platformConfig.label} for ${slug}: Buffer post ID ${social.postId.trim()} is already recorded.`,
+    );
+    process.exit(0);
+  }
   throw new Error(
     `${slug}: a ${platformConfig.label} Buffer post ID is already recorded; refusing to create a duplicate.`,
   );

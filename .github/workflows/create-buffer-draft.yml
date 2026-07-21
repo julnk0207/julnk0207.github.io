@@ -14,6 +14,7 @@ on:
         default: linkedin
         type: choice
         options:
+          - both
           - linkedin
           - x
 
@@ -48,11 +49,18 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create draft and record its ID
-        run: node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" "${{ inputs.platform }}" --write
+        run: |
+          if [ "${{ inputs.platform }}" = "both" ]; then
+            node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" linkedin --write --skip-existing
+            node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" x --write --skip-existing
+          else
+            node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" "${{ inputs.platform }}" --write
+          fi
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
 
       - name: Save Buffer draft record
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
