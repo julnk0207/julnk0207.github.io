@@ -9,6 +9,10 @@ tags:
 linkedin:
   status: draft
   summary: ""
+
+  # Leave this empty when creating an article. Buffer fills it after the first
+  # draft is created. Never invent, reuse, edit, or clear it: the filename slug
+  # identifies the article, and this immutable Buffer ID prevents duplicates.
   postId: ""
 ---
 
