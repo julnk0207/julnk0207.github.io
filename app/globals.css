@@ -275,6 +275,11 @@ button { font: inherit; }
 .site-footer { border-top: 1px solid var(--ink); }
 .footer-inner { min-height: 110px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-google-sans-code); font-size: 11px; font-weight: 500; line-height: 1.5; color: var(--muted); }
 .footer-inner strong { color: var(--ink); margin-right: 10px; }
+.footer-meta { display: flex; align-items: center; gap: 18px; }
+.footer-meta a { color: var(--muted); text-decoration: none; }
+.footer-meta a:hover { color: var(--ink); }
+.privacy-content { max-width: 760px; }
+.privacy-content h2:first-of-type { margin-top: 56px; }
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; gap: 60px; padding-block: 75px; }

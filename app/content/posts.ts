@@ -5,6 +5,15 @@ import { Marked, Renderer } from "marked";
 
 const POSTS_DIRECTORY = path.join(process.cwd(), "content", "posts");
 const WORDS_PER_MINUTE = 220;
+const LINKEDIN_STATUSES = ["draft", "generate", "review", "publish", "published"] as const;
+
+export type LinkedInStatus = typeof LINKEDIN_STATUSES[number];
+
+export type LinkedInMetadata = {
+  status: LinkedInStatus;
+  summary: string;
+  postId: string;
+};
 
 export type Post = {
   slug: string;
@@ -16,6 +25,7 @@ export type Post = {
   subcategory: string;
   tags: string[];
   readingTime: string;
+  linkedin: LinkedInMetadata;
 };
 
 export type TableOfContentsItem = {
@@ -69,6 +79,45 @@ function textDescription(markdown: string) {
     .trim();
 }
 
+function linkedinMetadata(value: unknown, filename: string): LinkedInMetadata {
+  if (value === undefined) {
+    return { status: "draft", summary: "", postId: "" };
+  }
+
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`${filename}: "linkedin" must be an object.`);
+  }
+
+  const linkedin = value as Record<string, unknown>;
+  const status = linkedin.status ?? "draft";
+  const summary = linkedin.summary ?? "";
+  const postId = linkedin.postId ?? "";
+
+  if (typeof status !== "string" || !LINKEDIN_STATUSES.includes(status as LinkedInStatus)) {
+    throw new Error(
+      `${filename}: "linkedin.status" must be one of ${LINKEDIN_STATUSES.join(", ")}.`,
+    );
+  }
+  if (typeof summary !== "string") {
+    throw new Error(`${filename}: "linkedin.summary" must be a string.`);
+  }
+  if (typeof postId !== "string") {
+    throw new Error(`${filename}: "linkedin.postId" must be a string.`);
+  }
+  if (status === "publish" && !summary.trim()) {
+    throw new Error(`${filename}: a LinkedIn summary is required before publishing.`);
+  }
+  if (status === "published" && !postId.trim()) {
+    throw new Error(`${filename}: a LinkedIn post ID is required for published posts.`);
+  }
+
+  return {
+    status: status as LinkedInStatus,
+    summary: summary.trim(),
+    postId: postId.trim(),
+  };
+}
+
 function loadPostSources(): PostSource[] {
   if (!fs.existsSync(POSTS_DIRECTORY)) return [];
 
@@ -102,6 +151,7 @@ function loadPostSources(): PostSource[] {
           subcategory: typeof data.subcategory === "string" ? data.subcategory : "General",
           tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
           readingTime: `${Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE))} MIN`,
+          linkedin: linkedinMetadata(data.linkedin, filename),
         },
       };
     })

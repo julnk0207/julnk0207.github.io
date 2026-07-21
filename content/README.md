@@ -15,4 +15,25 @@ Only `title` and `date` are required. The other fields have useful defaults:
 - `subcategory` defaults to `General`.
 - `tags` defaults to an empty list.
 
+## LinkedIn publishing metadata
+
+Every post can carry a LinkedIn publishing record:
+
+```yaml
+linkedin:
+  status: draft
+  summary: ""
+  postId: ""
+```
+
+The status controls the publishing lifecycle:
+
+- `draft`: not ready for LinkedIn.
+- `generate`: request an automatically generated LinkedIn draft.
+- `review`: the generated draft is ready to review.
+- `publish`: the approved summary is ready to publish once.
+- `published`: the post has been published and `postId` identifies the existing LinkedIn post.
+
+Ordinary article edits do not change this status. Keep `postId` after publication so later builds can update the existing LinkedIn post instead of creating a duplicate. A `publish` entry must have a non-empty summary, and a `published` entry must have a post ID.
+
 Markdown files whose names start with `_` are ignored, so `_template.md` is never published.

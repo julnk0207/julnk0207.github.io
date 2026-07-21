@@ -6,6 +6,10 @@ category: Engineering
 subcategory: General
 tags:
   - Example
+linkedin:
+  status: draft
+  summary: ""
+  postId: ""
 ---
 
 Write your introduction here. If you remove `description` above, this first paragraph becomes the summary automatically.

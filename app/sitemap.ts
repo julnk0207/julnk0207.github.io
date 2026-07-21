@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL, changeFrequency: "monthly", priority: 1 },
     { url: `${SITE_URL}/about/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/writing/`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/privacy/`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   const posts: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
