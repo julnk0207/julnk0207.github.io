@@ -4,12 +4,31 @@ import matter from "gray-matter";
 
 const BUFFER_API_URL = "https://api.buffer.com";
 const slug = process.argv[2];
+const platform = process.argv[3];
 const dryRun = process.argv.includes("--dry-run");
 const shouldWrite = process.argv.includes("--write");
+
+const PLATFORM_CONFIG = {
+  linkedin: {
+    label: "LinkedIn",
+    summaryLimit: 3_000,
+    matchesService: (service) => service.includes("linkedin"),
+  },
+  x: {
+    label: "X",
+    summaryLimit: 280,
+    matchesService: (service) => service === "x" || service.includes("twitter"),
+  },
+};
 
 if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
   throw new Error("Provide a valid post slug, such as: welcome");
 }
+if (!Object.hasOwn(PLATFORM_CONFIG, platform)) {
+  throw new Error("Choose a platform: linkedin or x");
+}
+
+const platformConfig = PLATFORM_CONFIG[platform];
 
 const filename = path.join(process.cwd(), "content", "posts", `${slug}.md`);
 if (!fs.existsSync(filename)) {
@@ -18,20 +37,29 @@ if (!fs.existsSync(filename)) {
 
 const source = fs.readFileSync(filename, "utf8");
 const { data } = matter(source);
-const linkedin = data.linkedin;
+const social = data[platform];
 
-if (!linkedin || typeof linkedin !== "object" || Array.isArray(linkedin)) {
-  throw new Error(`${slug}: LinkedIn frontmatter is missing.`);
+if (!social || typeof social !== "object" || Array.isArray(social)) {
+  throw new Error(`${slug}: ${platformConfig.label} frontmatter is missing.`);
 }
-if (typeof linkedin.summary !== "string" || !linkedin.summary.trim()) {
-  throw new Error(`${slug}: LinkedIn summary is empty.`);
+if (typeof social.summary !== "string" || !social.summary.trim()) {
+  throw new Error(`${slug}: ${platformConfig.label} summary is empty.`);
 }
-if (typeof linkedin.postId === "string" && linkedin.postId.trim()) {
-  throw new Error(`${slug}: a Buffer post ID is already recorded; refusing to create a duplicate.`);
+if (social.summary.length > platformConfig.summaryLimit) {
+  throw new Error(
+    `${slug}: ${platformConfig.label} summary exceeds ${platformConfig.summaryLimit} characters.`,
+  );
+}
+if (typeof social.postId === "string" && social.postId.trim()) {
+  throw new Error(
+    `${slug}: a ${platformConfig.label} Buffer post ID is already recorded; refusing to create a duplicate.`,
+  );
 }
 
 if (dryRun) {
-  console.log(`Dry run passed for ${slug} (${linkedin.summary.trim().length} summary characters).`);
+  console.log(
+    `Dry run passed for ${slug} on ${platformConfig.label} (${social.summary.trim().length} summary characters).`,
+  );
   process.exit(0);
 }
 
@@ -96,24 +124,24 @@ for (const organization of organizations) {
   }
 }
 
-const linkedInChannels = channels.filter((channel) =>
-  String(channel.service).toLowerCase().includes("linkedin"),
+const platformChannels = channels.filter((channel) =>
+  platformConfig.matchesService(String(channel.service).toLowerCase()),
 );
 
-if (linkedInChannels.length !== 1) {
+if (platformChannels.length !== 1) {
   const available = channels
     .map((channel) => `${channel.displayName || channel.name} (${channel.service})`)
     .join(", ") || "none";
   throw new Error(
-    `Expected exactly one LinkedIn channel, found ${linkedInChannels.length}. Available channels: ${available}`,
+    `Expected exactly one ${platformConfig.label} channel, found ${platformChannels.length}. Available channels: ${available}`,
   );
 }
 
-const channel = linkedInChannels[0];
+const channel = platformChannels[0];
 const draftData = await bufferRequest(`
   mutation CreateDraftPost {
     createPost(input: {
-      text: ${JSON.stringify(linkedin.summary.trim())}
+      text: ${JSON.stringify(social.summary.trim())}
       channelId: ${JSON.stringify(channel.id)}
       schedulingType: automatic
       mode: addToQueue
@@ -139,19 +167,19 @@ if (!result?.post?.id) {
 
 if (shouldWrite) {
   const lines = source.split("\n");
-  const linkedinIndex = lines.findIndex((line) => line === "linkedin:");
+  const platformIndex = lines.findIndex((line) => line === `${platform}:`);
   const nextTopLevelIndex = lines.findIndex(
-    (line, index) => index > linkedinIndex && line && !line.startsWith(" "),
+    (line, index) => index > platformIndex && line && !line.startsWith(" "),
   );
   const blockEnd = nextTopLevelIndex === -1 ? lines.length : nextTopLevelIndex;
   const statusIndex = lines.findIndex(
-    (line, index) => index > linkedinIndex && index < blockEnd && /^  status:/.test(line),
+    (line, index) => index > platformIndex && index < blockEnd && /^  status:/.test(line),
   );
   const postIdIndex = lines.findIndex(
-    (line, index) => index > linkedinIndex && index < blockEnd && /^  postId:/.test(line),
+    (line, index) => index > platformIndex && index < blockEnd && /^  postId:/.test(line),
   );
 
-  if (linkedinIndex === -1 || statusIndex === -1 || postIdIndex === -1) {
+  if (platformIndex === -1 || statusIndex === -1 || postIdIndex === -1) {
     throw new Error("The Buffer draft was created, but its ID could not be recorded in frontmatter.");
   }
 
@@ -161,7 +189,7 @@ if (shouldWrite) {
 }
 
 console.log(
-  `Created Buffer draft ${result.post.id} for ${channel.displayName || channel.name} and ${
+  `Created ${platformConfig.label} Buffer draft ${result.post.id} for ${channel.displayName || channel.name} and ${
     shouldWrite ? "recorded it" : "did not change the article"
   }.`,
 );

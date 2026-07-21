@@ -8,12 +8,20 @@ on:
         required: true
         default: welcome
         type: string
+      platform:
+        description: Social platform for the Buffer draft
+        required: true
+        default: linkedin
+        type: choice
+        options:
+          - linkedin
+          - x
 
 permissions:
   contents: write
 
 concurrency:
-  group: buffer-draft-${{ github.ref }}
+  group: buffer-draft-${{ github.ref }}-${{ inputs.platform }}
   cancel-in-progress: false
 
 jobs:
@@ -40,7 +48,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create draft and record its ID
-        run: node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" --write
+        run: node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" "${{ inputs.platform }}" --write
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
 
@@ -53,5 +61,5 @@ jobs:
             echo "No article record changed."
             exit 0
           fi
-          git commit -m "Record Buffer draft for ${{ inputs.post_slug }}"
+          git commit -m "Record ${{ inputs.platform }} Buffer draft for ${{ inputs.post_slug }}"
           git push origin HEAD:main

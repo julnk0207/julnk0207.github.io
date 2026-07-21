@@ -5,12 +5,12 @@ import { Marked, Renderer } from "marked";
 
 const POSTS_DIRECTORY = path.join(process.cwd(), "content", "posts");
 const WORDS_PER_MINUTE = 220;
-const LINKEDIN_STATUSES = ["draft", "generate", "review", "publish", "published"] as const;
+const SOCIAL_STATUSES = ["draft", "generate", "review", "publish", "published"] as const;
 
-export type LinkedInStatus = typeof LINKEDIN_STATUSES[number];
+export type SocialStatus = typeof SOCIAL_STATUSES[number];
 
-export type LinkedInMetadata = {
-  status: LinkedInStatus;
+export type SocialMetadata = {
+  status: SocialStatus;
   summary: string;
   postId: string;
 };
@@ -25,7 +25,8 @@ export type Post = {
   subcategory: string;
   tags: string[];
   readingTime: string;
-  linkedin: LinkedInMetadata;
+  linkedin: SocialMetadata;
+  x: SocialMetadata;
 };
 
 export type TableOfContentsItem = {
@@ -79,40 +80,50 @@ function textDescription(markdown: string) {
     .trim();
 }
 
-function linkedinMetadata(value: unknown, filename: string): LinkedInMetadata {
+function socialMetadata(
+  value: unknown,
+  filename: string,
+  platform: "linkedin" | "x",
+  summaryLimit: number,
+): SocialMetadata {
   if (value === undefined) {
     return { status: "draft", summary: "", postId: "" };
   }
 
   if (!value || typeof value !== "object" || Array.isArray(value)) {
-    throw new Error(`${filename}: "linkedin" must be an object.`);
+    throw new Error(`${filename}: "${platform}" must be an object.`);
   }
 
-  const linkedin = value as Record<string, unknown>;
-  const status = linkedin.status ?? "draft";
-  const summary = linkedin.summary ?? "";
-  const postId = linkedin.postId ?? "";
+  const social = value as Record<string, unknown>;
+  const status = social.status ?? "draft";
+  const summary = social.summary ?? "";
+  const postId = social.postId ?? "";
 
-  if (typeof status !== "string" || !LINKEDIN_STATUSES.includes(status as LinkedInStatus)) {
+  if (typeof status !== "string" || !SOCIAL_STATUSES.includes(status as SocialStatus)) {
     throw new Error(
-      `${filename}: "linkedin.status" must be one of ${LINKEDIN_STATUSES.join(", ")}.`,
+      `${filename}: "${platform}.status" must be one of ${SOCIAL_STATUSES.join(", ")}.`,
     );
   }
   if (typeof summary !== "string") {
-    throw new Error(`${filename}: "linkedin.summary" must be a string.`);
+    throw new Error(`${filename}: "${platform}.summary" must be a string.`);
+  }
+  if (summary.length > summaryLimit) {
+    throw new Error(
+      `${filename}: "${platform}.summary" must not exceed ${summaryLimit} characters.`,
+    );
   }
   if (typeof postId !== "string") {
-    throw new Error(`${filename}: "linkedin.postId" must be a string.`);
+    throw new Error(`${filename}: "${platform}.postId" must be a string.`);
   }
   if (status === "publish" && !summary.trim()) {
-    throw new Error(`${filename}: a LinkedIn summary is required before publishing.`);
+    throw new Error(`${filename}: a ${platform} summary is required before publishing.`);
   }
   if (status === "published" && !postId.trim()) {
-    throw new Error(`${filename}: a LinkedIn post ID is required for published posts.`);
+    throw new Error(`${filename}: a ${platform} post ID is required for published posts.`);
   }
 
   return {
-    status: status as LinkedInStatus,
+    status: status as SocialStatus,
     summary: summary.trim(),
     postId: postId.trim(),
   };
@@ -151,7 +162,8 @@ function loadPostSources(): PostSource[] {
           subcategory: typeof data.subcategory === "string" ? data.subcategory : "General",
           tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
           readingTime: `${Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE))} MIN`,
-          linkedin: linkedinMetadata(data.linkedin, filename),
+          linkedin: socialMetadata(data.linkedin, filename, "linkedin", 3_000),
+          x: socialMetadata(data.x, filename, "x", 280),
         },
       };
     })

@@ -15,12 +15,16 @@ Only `title` and `date` are required. The other fields have useful defaults:
 - `subcategory` defaults to `General`.
 - `tags` defaults to an empty list.
 
-## LinkedIn publishing metadata
+## Social publishing metadata
 
-Every post can carry a LinkedIn publishing record:
+Every post can carry independent LinkedIn and X publishing records:
 
 ```yaml
 linkedin:
+  status: draft
+  summary: ""
+  postId: ""
+x:
   status: draft
   summary: ""
   postId: ""
@@ -28,17 +32,17 @@ linkedin:
 
 The status controls the publishing lifecycle:
 
-- `draft`: not ready for LinkedIn.
-- `generate`: request an automatically generated LinkedIn draft.
+- `draft`: not ready for the social platform.
+- `generate`: request an automatically generated social draft.
 - `review`: the generated draft is ready to review.
 - `publish`: the approved summary is ready to publish once.
-- `published`: the post has been published and `postId` identifies the existing LinkedIn post.
+- `published`: the post has been published and `postId` identifies the existing Buffer post.
 
-Ordinary article edits do not change this status. Keep `postId` after publication so later builds can update the existing LinkedIn post instead of creating a duplicate. A `publish` entry must have a non-empty summary, and a `published` entry must have a post ID.
+Ordinary article edits do not change these statuses. Each platform has its own immutable `postId`; never copy an ID between LinkedIn, X, or different articles. Keep each ID after publication so later workflow runs cannot create duplicates. A `publish` entry must have a non-empty summary, and a `published` entry must have a post ID.
 
 ### Buffer draft test
 
-The **Create Buffer draft** GitHub Actions workflow accepts a post slug and creates a draft for the single LinkedIn channel connected to Buffer. It never publishes directly. After Buffer returns a post ID, the workflow changes the article status to `review`, records that ID, and commits the record so rerunning the workflow cannot create a duplicate.
+The **Create Buffer draft** GitHub Actions workflow accepts a post slug and a platform (`linkedin` or `x`). It creates a draft for the single matching channel connected to Buffer and never publishes directly. After Buffer returns a post ID, the workflow changes that platform's article status to `review`, records the ID in the matching block, and commits the record so rerunning the workflow cannot create a duplicate.
 
 The workflow requires a repository Actions secret named `BUFFER_API_KEY`. Never put the key in frontmatter, source files, workflow inputs, or logs.
 
