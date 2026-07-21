@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 import { WritingArchive } from "../components/WritingArchive";
 import { getAllPosts } from "../content/posts";
+
+export const metadata: Metadata = {
+  title: "Writing",
+  description: "Notes by Julian Kim about AI, software engineering, learning, and research.",
+  alternates: { canonical: "/writing/" },
+};
 
 export default function WritingPage() {
   const posts = getAllPosts();

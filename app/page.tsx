@@ -1,10 +1,15 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ContactLinks } from "./components/ContactLinks";
 import { ProfileFacts } from "./components/ProfileFacts";
 import { ProfilePhoto } from "./components/ProfilePhoto";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { getAllPosts } from "./content/posts";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   const featuredPosts = getAllPosts().slice(0, 3);

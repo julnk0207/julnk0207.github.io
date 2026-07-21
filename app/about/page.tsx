@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { ContactLinks } from "../components/ContactLinks";
 import { ProfileFacts } from "../components/ProfileFacts";
 import { ProfilePhoto } from "../components/ProfilePhoto";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Learn about Julian Kim's academic background, research experience, and interests in Physical AI.",
+  alternates: { canonical: "/about/" },
+};
 
 export default function AboutPage() {
   return (

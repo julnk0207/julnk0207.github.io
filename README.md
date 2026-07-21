@@ -29,6 +29,18 @@ Every push to `main` builds a static version of the site and deploys it to:
 
 `https://julnk0207.github.io/`
 
+## Google Search indexing and monitoring
+
+The production build publishes `robots.txt` and `sitemap.xml` automatically. To connect the site to Google Search Console:
+
+1. Add `https://julnk0207.github.io/` as a **URL-prefix property** in Search Console.
+2. Choose the **HTML tag** verification method and copy only the token from the tag's `content` value.
+3. In this GitHub repository, create an Actions secret named `GOOGLE_SITE_VERIFICATION` containing that token.
+4. Run the **Deploy GitHub Pages** workflow (or push to `main`), then complete verification in Search Console.
+5. Submit `https://julnk0207.github.io/sitemap.xml` in Search Console's **Sitemaps** section.
+
+The verification meta tag is included only when that secret is configured.
+
 ## Goals
 
 - Present a clear professional identity and body of work.

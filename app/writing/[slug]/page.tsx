@@ -15,8 +15,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
 
   return {
-    title: `${post.title} — Julian Kim`,
+    title: post.title,
     description: post.description,
+    alternates: { canonical: `/writing/${post.slug}/` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.description,
+      url: `/writing/${post.slug}/`,
+      publishedTime: post.dateValue,
+      authors: ["Julian Kim"],
+      tags: post.tags,
+    },
   };
 }
 

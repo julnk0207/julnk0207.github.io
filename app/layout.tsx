@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Google_Sans, Google_Sans_Code } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./site";
 import "./globals.css";
 
 const googleSans = Google_Sans({
@@ -13,11 +14,33 @@ const googleSansCode = Google_Sans_Code({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Julian Kim — Undergraduate Researcher",
-    template: "%s — Julian Kim",
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
   },
-  description: "Engineering notes, experiments, and the thinking behind the software I build.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    images: [{ url: "/app-icon.png", width: 1024, height: 1024, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: ["/app-icon.png"],
+  },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -54,6 +77,19 @@ const themeScript = `
   })();
 `;
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  author: {
+    "@type": "Person",
+    name: SITE_NAME,
+    url: SITE_URL,
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -63,6 +99,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#f7f8ff" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
