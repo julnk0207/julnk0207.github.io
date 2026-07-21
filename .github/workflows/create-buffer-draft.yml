@@ -1,0 +1,57 @@
+name: Create Buffer draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      post_slug:
+        description: Post slug to send to Buffer as a draft
+        required: true
+        default: welcome
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: buffer-draft-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  create-draft:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create draft and record its ID
+        run: node scripts/create-buffer-draft.mjs "${{ inputs.post_slug }}" --write
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+
+      - name: Save Buffer draft record
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/posts
+          if git diff --cached --quiet; then
+            echo "No article record changed."
+            exit 0
+          fi
+          git commit -m "Record Buffer draft for ${{ inputs.post_slug }}"
+          git push origin HEAD:main

@@ -36,4 +36,10 @@ The status controls the publishing lifecycle:
 
 Ordinary article edits do not change this status. Keep `postId` after publication so later builds can update the existing LinkedIn post instead of creating a duplicate. A `publish` entry must have a non-empty summary, and a `published` entry must have a post ID.
 
+### Buffer draft test
+
+The **Create Buffer draft** GitHub Actions workflow accepts a post slug and creates a draft for the single LinkedIn channel connected to Buffer. It never publishes directly. After Buffer returns a post ID, the workflow changes the article status to `review`, records that ID, and commits the record so rerunning the workflow cannot create a duplicate.
+
+The workflow requires a repository Actions secret named `BUFFER_API_KEY`. Never put the key in frontmatter, source files, workflow inputs, or logs.
+
 Markdown files whose names start with `_` are ignored, so `_template.md` is never published.
