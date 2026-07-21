@@ -17,14 +17,14 @@ linkedin:
     #AI #SoftwareEngineering #Research
   postId: "6a5f4b9f59e855c2ff124564"
 x:
-  status: draft
+  status: review
   summary: |-
     I rebuilt my personal blog to collect notes on AI, software, research, and what I’m learning along the way. It also includes my academic and research background.
 
     Explore it: https://julnk0207.github.io/
 
     #AI #Research
-  postId: ""
+  postId: "6a5f6c0b75973d249bc133e6"
 ---
 
 Welcome to my new, fully redesigned personal tech blog!
