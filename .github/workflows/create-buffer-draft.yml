@@ -11,7 +11,7 @@ on:
       platform:
         description: Social platform for the Buffer draft
         required: true
-        default: linkedin
+        default: both
         type: choice
         options:
           - both
