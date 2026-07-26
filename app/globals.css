@@ -266,6 +266,9 @@ button { font: inherit; }
 .article-body li + li { margin-top: 8px; }
 .article-body :not(pre) > code { padding: 2px 6px; background: var(--highlight); font-family: var(--font-google-sans-code); font-size: .85em; line-height: 1.5; }
 .article-body img { max-width: 100%; height: auto; margin: 36px 0; }
+.article-body figure { margin: 36px 0; }
+.article-body figure img { display: block; margin: 0; }
+.article-body figcaption { margin-top: 12px; color: var(--muted); font-size: 14px; line-height: 1.55; }
 .article-body table { width: 100%; margin: 36px 0; border-collapse: collapse; font-size: 15px; }
 .article-body th, .article-body td { padding: 12px; border: 1px solid var(--line); text-align: left; }
 .article-body blockquote { margin: 44px 0; padding: 30px; background: var(--highlight); border-left: 3px solid var(--accent); font-size: 23px; line-height: 1.45; letter-spacing: -.025em; }
