@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { Marked, Renderer } from "marked";
+import markedKatex from "marked-katex-extension";
 
 const POSTS_DIRECTORY = path.join(process.cwd(), "content", "posts");
 const WORDS_PER_MINUTE = 220;
@@ -197,6 +198,9 @@ function renderMarkdown(markdown: string) {
   };
 
   const marked = new Marked({ gfm: true, renderer });
+  marked.use(markedKatex({
+    throwOnError: false,
+  }));
   return {
     html: marked.parse(markdown) as string,
     tableOfContents,

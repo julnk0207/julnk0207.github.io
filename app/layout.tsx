@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Google_Sans, Google_Sans_Code } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./site";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 const googleSans = Google_Sans({
