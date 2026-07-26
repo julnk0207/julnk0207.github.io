@@ -23,7 +23,7 @@ linkedin:
     language modeling, generative modeling, control, and robotics. That breadth is
     both the challenge and the reason I want to keep exploring this field.
 
-    https://julnk0207.github.io/writing/pinnacle_of_ai_GR00TN1/
+    https://julnk0207.github.io/writing/pinnacle-of-ai-groot-n1/
 
     #PhysicalAI #Robotics #VLA
 
@@ -39,7 +39,7 @@ x:
     Physical AI demands more than expertise in one AI field. GR00T N1 connects
     vision, language, generative modeling, control, and robotics—exactly the breadth
     that draws me to VLA research.
-    https://julnk0207.github.io/writing/pinnacle_of_ai_GR00TN1/ #PhysicalAI #VLA
+    https://julnk0207.github.io/writing/pinnacle-of-ai-groot-n1/ #PhysicalAI #VLA
 
   # This follows the same ID rule as LinkedIn, but stores X's separate Buffer
   # post ID. Never copy an ID between platforms or articles.
