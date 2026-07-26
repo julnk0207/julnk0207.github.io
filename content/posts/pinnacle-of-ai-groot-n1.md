@@ -7,7 +7,7 @@ subcategory: VLA
 tags:
   - Example
 linkedin:
-  status: draft
+  status: review
   # LinkedIn: write a standalone professional post with a hook, 2-3 useful
   # takeaways, the article URL, and at most 3 relevant hashtags. Keep the total
   # under 3,000 characters and avoid a generic "I published a post" message.
@@ -30,9 +30,9 @@ linkedin:
   # Leave this empty when creating an article. Buffer fills it after the first
   # draft is created. Never invent, reuse, edit, or clear it: the filename slug
   # identifies the article, and this immutable Buffer ID prevents duplicates.
-  postId: ""
+  postId: "6a66056012fafbaf49e0c820"
 x:
-  status: draft
+  status: review
   # X: state one core insight and include the article URL. Keep the complete
   # post at or below 280 characters, including the URL and at most 2 hashtags.
   summary: >-
@@ -43,7 +43,7 @@ x:
 
   # This follows the same ID rule as LinkedIn, but stores X's separate Buffer
   # post ID. Never copy an ID between platforms or articles.
-  postId: ""
+  postId: "6a66056122bc282b887abe84"
 ---
 
 When I started studying physical AI and vision-language-action (VLA) models, the first paper my mentor recommended was GR00T N1. I think this was because GR00T N1 is a prominent open foundation model for generalist robot control.
