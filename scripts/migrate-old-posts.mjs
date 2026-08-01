@@ -48,7 +48,11 @@ function slugify(value) {
   return value
     .normalize("NFKC")
     .toLocaleLowerCase("en-US")
-    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    // GitHub Pages returns 404 for exported route directories containing
+    // percent-encoded Unicode. Keep route segments portable and ASCII-only;
+    // the source ID below still guarantees uniqueness when a Korean-only
+    // title has no ASCII representation.
+    .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 90)
     .replace(/-+$/g, "");
@@ -164,6 +168,11 @@ for (const filename of sourceFiles) {
   const tags = tagsFor(title, course, body);
   const output = `${frontmatter({ title, description, date, category, course, tags })}\n\n${body}${body ? "\n" : ""}`;
 
+  for (const existingFilename of fs.readdirSync(destinationDirectory)) {
+    if (existingFilename.endsWith(`-${sourceId}.md`) && existingFilename !== outputFilename) {
+      fs.unlinkSync(path.join(destinationDirectory, existingFilename));
+    }
+  }
   fs.writeFileSync(path.join(destinationDirectory, outputFilename), output, "utf8");
   generated.push(outputFilename);
 }
