@@ -238,6 +238,17 @@ button { font: inherit; }
 .writing-list h2 { max-width: 740px; margin: 18px 0 10px; font-size: clamp(28px, 3.2vw, 46px); line-height: 1.06; letter-spacing: -.045em; }
 .writing-list-main > p { max-width: 650px; color: var(--muted); line-height: 1.6; }
 .writing-list .tag-list { margin-top: 20px; }
+.pagination { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding-top: 30px; }
+.pagination button { min-width: 38px; height: 38px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; font-family: var(--font-google-sans-code); font-size: 11px; font-weight: 600; transition: border-color .2s ease, background-color .2s ease, color .2s ease; }
+.pagination button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.pagination button.active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.pagination button:disabled { cursor: not-allowed; opacity: .35; }
+.pagination-direction { justify-self: start; padding-inline: 15px; }
+.pagination-next { justify-self: end; }
+.pagination-center { display: grid; justify-items: center; gap: 12px; }
+.pagination-summary { color: var(--muted); font-family: var(--font-google-sans-code); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.pagination-pages { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.pagination-ellipsis { display: grid; width: 24px; place-items: center; color: var(--muted); }
 
 .article-header { padding-block: 70px 80px; border-bottom: 1px solid var(--ink); }
 .back-link { display: inline-block; margin-bottom: 70px; font-family: var(--font-google-sans-code); font-size: 11px; font-weight: 600; line-height: 1; }
@@ -335,6 +346,11 @@ button { font: inherit; }
   .about-content section { grid-template-columns: 1fr; gap: 8px; }
   .writing-list article { grid-template-columns: 28px 1fr; gap: 12px; }
   .writing-list .round-link { display: none; }
+  .pagination { grid-template-columns: 1fr 1fr; gap: 18px; }
+  .pagination-center { grid-column: 1 / -1; grid-row: 1; }
+  .pagination-direction { grid-row: 2; }
+  .pagination-next { grid-column: 2; }
+  .pagination-pages { flex-wrap: wrap; }
   .post-meta { flex-wrap: wrap; justify-content: start; }
   .article-header { padding-block: 45px 60px; }
   .back-link { margin-bottom: 50px; }
