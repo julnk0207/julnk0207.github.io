@@ -1,0 +1,180 @@
+---
+title: "[Hands-On ML] 18. Reinforcement Learning - 3"
+description: "At early stage, an agent doesn’t know about the transfer probability T ( s , a , s ′) and reward R ( s , a , s ′). To figure out them, the agent should experience each state at…"
+date: 2025-01-24
+category: "Book"
+subcategory: "Hands-On ML"
+tags:
+  - "Hands-On ML"
+  - "Python"
+  - "Keras"
+  - "Reinforcement Learning"
+linkedin:
+  status: draft
+  summary: ""
+  postId: ""
+x:
+  status: draft
+  summary: ""
+  postId: ""
+---
+
+## Temporal Difference Learning
+
+At early stage, an agent doesn’t know about the transfer probability *T*(*s*, *a*, *s*′) and reward *R*(*s*, *a*, *s*′). To figure out them, the agent should experience each state at least once.
+
+Temporal Difference Learning(TD) is a variation of Q-value iteration, but it can be used when the agent knows only part of MDP. Generally, the agent knows about state and action which are only available at first.
+
+The agent explores MDP with exploration policy. As the exploreation goes, TD algorithm updates state value based on discovered transfer and rewards.
+
+*Vk* + 1(*s*) ← (1 − *α*)*Vk*(*s*) + *α*(*r* + *γ* ⋅ *Vk*(*s*′))
+
+The following has the same meaning.
+
+$$V(s) \underset{\alpha}{\leftarrow} r + \gamma \cdot V(s')$$
+
+## Q-Learning
+
+Similarly, Q-learning is an application of Q-value iteration when an agent doesn’t know about the transfer prob and reward at first. Q-learning observes the agent playing and gradually improves Q-value estimation. If significantly precise Q-value is obtained, the optimal policy chooses an action with the highest Q-value (greedy algorithm).
+
+$$Q(s, a) \underset{\alpha}{\leftarrow} r + \gamma \cdot \underset{\alpha'}{max} \, Q(s', a')$$
+
+The following is an implementation of Q-learning.
+
+```python
+# do one action and get state and reward
+def step(state, action):
+    probas = transition_probabilities[state][action]
+    next_state = np.random.choice([0, 1, 2], p=probas)
+    reward = rewards[state][action][next_state]
+    return next_state, reward
+
+def exploration_policy(state):
+    return np.random.choice(possible_actions[state])
+
+alpha0 = 0.05
+decay = 0.005
+gamma = 0.90
+state = 0
+
+# Q-learning based on power scheduling
+for iteration in range(10000):
+    action = exploration_policy(state)
+    next_state, reward = step(state, action)
+    next_value = Q_values[next_state].max()
+    alpha = alpha0 / (1 + iteration * decay)
+    Q_values[state, action] *= 1 - alpha
+    Q_values[state, action] += alpha * (reward + gamma * next_value)
+    state = next_state
+```
+
+> As the trained policy is not necessarily used(random exploring), Q-learning is called off-policy. On the contrary, PG is on-policy, which uses trained policy to explore environment.
+> 
+
+## Better Exploration Policy
+
+Fully random policy can make the exploration take too long. We can solve this problem by using *ϵ*-greedy policy. For each step, an agent act randomly with probability *ϵ*, or choose an action with the highest Q-value with probability 1 − *ϵ*. Exploring promising part will take more time, but other parts will also be explored.
+
+Another method is to emphasize policy to do something that hasn’t been done much before. The formula looks as a follow. *N*(*s*′, *a*′) counts the number of action a’ at state s’.
+
+$$Q(s, a) \underset{\alpha}{\leftarrow} r + \gamma \cdot \underset{a'}{max} \, f(Q(s', a'), N(s', a')) 
+\\ f(Q, N) = Q + \kappa/(1 + N)
+$$
+
+## Deep Q-Network
+
+There are no ways to record all estimation of Q-value (as too many number of values). Therefore, we will use approximate Q-learning. What we are going to find is a function *Qθ*(*s*, *a*) that approximates Q-value of (s, a).
+
+Deep NN for Q-value is called Deep Q-Network(DQN), and using DQN for approximate Q-learning is called Deep Q-learning.
+
+The following is a process of training DQN.
+
+1. Perform DQN for the next state s’ and all possible actions a’ to get approximate Q-value.
+2. Pick the action with the highest approximate Q-value.
+3. Apply discount to get the estimation of discounted future reward.
+4. Add reward r and discounted future reward to get target Q-value. $Q_{target}(s, a) = r + \gamma \cdot \underset{a'}{max} \, Q_\theta(s', a')$
+5. Perform gradient descent by using the target Q-value. Minimize the error between estimated Q-value *Q*(*s*, *a*) and target Q-value.
+
+The following is a code implementation.
+
+```python
+# Deep-Q-Network
+input_shape = [4]
+n_outputs = 2
+
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(32, activation='elu', input_shape=input_shape),
+    tf.keras.layers.Dense(32, activation='elu'),
+    tf.keras.layers.Dense(n_outputs)
+])
+
+# epsilon greedy policy
+def epsilon_greedy_policy(state, epsilon=0):
+    if np.random.rand() < epsilon:
+        return np.random.randint(n_outputs)
+    else:
+        Q_values = model.predict(state[np.newaxis], verbose=0)[0]
+        return Q_values.argmax()
+
+# replay buffer: store all experiences and ramdomly sampl from here for each training iteration
+from collections import deque
+replay_buffer = deque(maxlen=2000)
+
+# randomly sampling experience from buffer
+def sample_experiences(batch_size):
+    indices = np.random.randint(len(replay_buffer), size=batch_size)
+    batch = [replay_buffer[index] for index in indices]
+    return [
+        np.array([experience[field_index] for experience in batch])
+        for field_index in range(6)
+    ]   # [states, actions, rewards, next_states, dones, truncateds]
+
+def play_one_step(env, state, epsilon):
+    action = epsilon_greedy_policy(state, epsilon)
+    next_state, reward, done, truncated, info = env.step(action)
+    replay_buffer.append((state, action, reward, next_state, done, truncated))
+    return next_state, reward, done, truncated, info
+
+batch_size = 32
+discount_factor = 0.95
+optimizer = tf.keras.optimizers.Nadam(learning_rate=1e-2)
+loss_fn = tf.keras.losses.MeanSquaredError
+
+# perform one step of gradient descent and train DQN
+def training_step(batch_size):
+    experiences = sample_experiences(batch_size)
+    states, actions, rewards, next_states, dones, truncateds = experiences
+    next_Q_values = model.predict(next_states, verbose=0)
+    max_next_Q_values = next_Q_values.max(axis=1)
+    runs = 1.0 - (dones | truncateds)
+    target_Q_values = rewards + runs * discount_factor * max_next_Q_values
+    target_Q_values = target_Q_values.reshape(-1, 1)
+    mask = tf.one_hot(actions, n_outputs)
+    with tf.GradientTape() as tape:
+        all_Q_values = model(states)
+        Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
+        loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))
+
+    grads = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))
+
+# train model
+for episode in range(500):
+    obs, info = env.reset()
+
+    for step in range(200):
+        epsilon = max(1 - episode / 500 , 0.01)
+        obs, reward, done, truncated, info = play_one_step(env, obs, epsilon)
+        if done or truncated:
+            break
+
+    if episode > 50:
+        training_step(batch_size)
+```
+
+> Catastrophic forgetting can occur. One experience can break down other experience. Increasing replay buffer could solve this problem.
+> 
+
+[Go for Codes](https://github.com/Hyun3246/Warehouse/blob/1da7a2d63240a3b2096e435549e7828f7abd43a1/Hands-On%20ML/Chapter_18_Reinforcement_Learning.ipynb)
+
+*All images, except those with separate source indications, are excerpted from lecture materials.*

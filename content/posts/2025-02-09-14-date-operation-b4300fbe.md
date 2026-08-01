@@ -1,0 +1,82 @@
+---
+title: "[SQL First Step] 14. Date Operation"
+description: "To check the time of system, use CURRENT TIMESTAMP."
+date: 2025-02-09
+category: "Book"
+subcategory: "SQL First Step"
+tags:
+  - "SQL First Step"
+  - "SQL"
+linkedin:
+  status: draft
+  summary: ""
+  postId: ""
+x:
+  status: draft
+  summary: ""
+  postId: ""
+---
+
+## Checking System Date and Time
+
+To check the time of system, use `CURRENT_TIMESTAMP`.
+
+```sql
+mysql> SELECT CURRENT_TIMESTAMP;
++---------------------+
+| CURRENT_TIMESTAMP   |
++---------------------+
+| 2025-02-09 10:59:50 |
++---------------------+
+1 row in set (0.00 sec)
+```
+
+## Formatting Date and Time
+
+You can specify date and time format by using `DATE_FORMAT`(MySQL) or `TO_DATE`(Oracle).
+
+```sql
+mysql> SELECT DATE_FORMAT(CURRENT_TIMESTAMP(), "%Y/%M/%d");
++----------------------------------------------+
+| DATE_FORMAT(CURRENT_TIMESTAMP(), "%Y/%M/%d") |
++----------------------------------------------+
+| 2025/February/09                             |
++----------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DATE_FORMAT(CURRENT_TIMESTAMP(), "%Y/%m/%d");
++----------------------------------------------+
+| DATE_FORMAT(CURRENT_TIMESTAMP(), "%Y/%m/%d") |
++----------------------------------------------+
+| 2025/02/09                                   |
++----------------------------------------------+
+1 row in set (0.00 sec)
+```
+
+## Addition and Subtraction of Date
+
+Use `INTERVAL` to add or subtract specific interval of date. The following is an example of getting date one day later.
+
+```sql
+mysql> SELECT CURRENT_DATE + INTERVAL 1 DAY;
++-------------------------------+
+| CURRENT_DATE + INTERVAL 1 DAY |
++-------------------------------+
+| 2025-02-10                    |
++-------------------------------+
+1 row in set (0.00 sec)
+```
+
+It is also possible to subtract dates from each other.
+
+```sql
+mysql> SELECT DATEDIFF('2024-02-28', '2014-01-01');
++--------------------------------------+
+| DATEDIFF('2024-02-28', '2014-01-01') |
++--------------------------------------+
+|                                 3710 |
++--------------------------------------+
+1 row in set (0.00 sec)
+```
+
+*All images, except those with separate source indications, are excerpted from lecture materials.*

@@ -1,0 +1,42 @@
+---
+title: "[Hands-On ML] 19. Training and Deploying TensorFlow Models at Scale - 6"
+description: "The major difference between TF serving and Vertex AI during large scale training is directory. Instead of saving model in local, save model in AIP MODEL DIR variable with…"
+date: 2025-02-10
+category: "Book"
+subcategory: "Hands-On ML"
+tags:
+  - "Hands-On ML"
+  - "SQL"
+  - "TensorFlow"
+linkedin:
+  status: draft
+  summary: ""
+  postId: ""
+x:
+  status: draft
+  summary: ""
+  postId: ""
+---
+
+## Large Scale Training in Vertex AI
+
+The major difference between TF serving and Vertex AI during large scale training is directory. Instead of saving model in local, save model in `AIP_MODEL_DIR` variable with directory that Vertex AI provided.
+
+For specific codes, see ‘Go for Codes’.
+
+## Hyperparameter Tuning in Vertex AI
+
+To search best hyperparameter comnbination in Vertex AI, follow the following steps.
+
+1. Use `argparse` library to get hyperparameter value as an argument.
+2. Use mirrored strategy to perform trials in multi GPU machine.
+3. Use `hypertune` library to report performance of model to Vertex AI service and select the next combinations.
+4. Define type of machine.
+5. Tune hyperparemeters.
+6. Get a result. The result of each trial is represented as protocol buffer including hyperparameters and results.
+
+For specific codes, see ‘Go for Codes’.
+
+[Go for Codes](https://github.com/Hyun3246/Warehouse/blob/7855802d40a431ede21cdfc314a5bb986da808cd/Hands-On%20ML/Chapter_19_Training_and_Deploying_TensorFlow_Models_at_Scale.ipynb)
+
+*All images, except those with separate source indications, are excerpted from lecture materials.*
