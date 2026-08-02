@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { Post } from "../content/posts";
 
 type WritingArchiveProps = {
@@ -9,6 +9,25 @@ type WritingArchiveProps = {
 };
 
 const POSTS_PER_PAGE = 10;
+const ARCHIVE_RETURN_KEY = "writing-archive-return";
+const ARCHIVE_STATE_EVENT = "writing-archive-state";
+
+function subscribeToArchiveState(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  window.addEventListener(ARCHIVE_STATE_EVENT, callback);
+  return () => {
+    window.removeEventListener("popstate", callback);
+    window.removeEventListener(ARCHIVE_STATE_EVENT, callback);
+  };
+}
+
+function getArchiveSearch() {
+  return window.location.search;
+}
+
+function getServerArchiveSearch() {
+  return "";
+}
 
 function paginationItems(currentPage: number, totalPages: number) {
   if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -32,31 +51,84 @@ function paginationItems(currentPage: number, totalPages: number) {
 }
 
 export function WritingArchive({ posts }: WritingArchiveProps) {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
   const archiveStartRef = useRef<HTMLParagraphElement>(null);
   const categories = ["All", ...new Set(posts.map((post) => post.category))];
+  const archiveSearch = useSyncExternalStore(
+    subscribeToArchiveState,
+    getArchiveSearch,
+    getServerArchiveSearch,
+  );
+  const searchParams = new URLSearchParams(archiveSearch);
+  const requestedCategory = searchParams.get("category");
+  const activeCategory = requestedCategory && categories.includes(requestedCategory)
+    ? requestedCategory
+    : "All";
   const visiblePosts = activeCategory === "All"
     ? posts
     : posts.filter((post) => post.category === activeCategory);
   const totalPages = Math.max(1, Math.ceil(visiblePosts.length / POSTS_PER_PAGE));
+  const requestedPage = Number.parseInt(searchParams.get("page") ?? "1", 10);
+  const currentPage = Number.isFinite(requestedPage)
+    ? Math.min(Math.max(requestedPage, 1), totalPages)
+    : 1;
   const pageStart = (currentPage - 1) * POSTS_PER_PAGE;
   const pagePosts = visiblePosts.slice(pageStart, pageStart + POSTS_PER_PAGE);
 
+  useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    const currentArchiveUrl = `${window.location.pathname}${window.location.search}`;
+    const savedReturn = window.sessionStorage.getItem(ARCHIVE_RETURN_KEY);
+    window.sessionStorage.removeItem(ARCHIVE_RETURN_KEY);
+    if (savedReturn) {
+      try {
+        const parsed = JSON.parse(savedReturn) as { url?: string; scrollY?: number };
+        if (parsed.url === currentArchiveUrl && typeof parsed.scrollY === "number") {
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => window.scrollTo({ top: parsed.scrollY, behavior: "auto" }));
+          });
+        }
+      } catch {
+        // Ignore stale session data and continue with the URL-restored filter.
+      }
+    }
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, []);
+
+  function updateArchiveUrl(category: string, page: number) {
+    const url = new URL(window.location.href);
+    if (category === "All") url.searchParams.delete("category");
+    else url.searchParams.set("category", category);
+    if (page === 1) url.searchParams.delete("page");
+    else url.searchParams.set("page", String(page));
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    window.dispatchEvent(new Event(ARCHIVE_STATE_EVENT));
+  }
+
   function selectCategory(category: string) {
-    setActiveCategory(category);
-    setCurrentPage(1);
+    updateArchiveUrl(category, 1);
   }
 
   function selectPage(page: number) {
     if (page === currentPage || page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    updateArchiveUrl(activeCategory, page);
     window.requestAnimationFrame(() => {
       archiveStartRef.current?.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         block: "start",
       });
     });
+  }
+
+  function rememberArchivePosition() {
+    window.sessionStorage.setItem(ARCHIVE_RETURN_KEY, JSON.stringify({
+      url: `${window.location.pathname}${window.location.search}`,
+      scrollY: window.scrollY,
+    }));
   }
 
   return (
@@ -90,11 +162,11 @@ export function WritingArchive({ posts }: WritingArchiveProps) {
             <p className="post-index">{String(pageStart + index + 1).padStart(2, "0")}</p>
             <div className="writing-list-main">
               <div className="post-meta"><span>{post.category} / {post.subcategory}</span><span>{post.date}</span><span>{post.readingTime}</span></div>
-              <h2><Link href={`/writing/${post.slug}`}>{post.title}</Link></h2>
+              <h2><Link href={`/writing/${post.slug}`} onClick={rememberArchivePosition}>{post.title}</Link></h2>
               <p>{post.description}</p>
               <div className="tag-list">{post.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
             </div>
-            <Link className="round-link small" href={`/writing/${post.slug}`} aria-label={`Read ${post.title}`}>↗</Link>
+            <Link className="round-link small" href={`/writing/${post.slug}`} aria-label={`Read ${post.title}`} onClick={rememberArchivePosition}>↗</Link>
           </article>
         ))}
       </div>
