@@ -16,7 +16,7 @@ const contacts: Array<{
   {
     label: "LinkedIn",
     value: "Hyun-Jun Kim",
-    href: "www.linkedin.com/in/hyun-jun-kim-58a914264",
+    href: "https://linkedin.com/in/hyun-jun-kim-58a914264",
     icon: "linkedin",
     external: true,
   },
