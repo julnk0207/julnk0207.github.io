@@ -37,9 +37,13 @@ export default function AboutPage() {
 
 
             {/* Research Experience */}
-            <section><span className="section-number">02</span><div><h2>Research experience</h2><div className="detail-card"><strong>Data Science & Artificial Intelligence Laboratory</strong><span>Research intern · Seoul, Korea · July, 2026 - Current</span><p>Exploring research at the intersection of visual perception, language, and action.</p></div></div></section>
-
-            <section><span className="section-number">02</span><div><h2>Research experience</h2><div className="detail-card"><strong>Data Science & Artificial Intelligence Laboratory</strong><span>Research intern · Seoul, Korea · Jan, 2026 - Feb, 2026</span><p>Graduation project on Vision-Language Model.</p></div></div></section>
+            <section><span className="section-number">02</span><div><h2>Research experience</h2>
+              
+              <div className="detail-card"><strong>Data Science & Artificial Intelligence Laboratory</strong><span>Research intern · Seoul, Korea · July, 2026 - Current</span><p>Exploring research at the intersection of visual perception, language, and action.</p></div>
+  
+              <div className="detail-card"><strong>Data Science & Artificial Intelligence Laboratory</strong><span>Research intern · Seoul, Korea · Jan, 2026 - Feb, 2026</span><p>Graduation project on Vision-Language Model.</p></div>
+            
+            </div></section>
 
             {/* Certification */}
 
